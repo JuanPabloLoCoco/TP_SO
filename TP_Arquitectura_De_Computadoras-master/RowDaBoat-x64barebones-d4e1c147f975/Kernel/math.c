@@ -21,3 +21,12 @@ uint64_t roundUpPower2(uint64_t v){
     return v;
 
 }
+
+int lowerBound2Pow(int n){
+    int i=0;
+    while(n){
+        n=n>>1;
+        i++;
+    }
+    return 1<<i;
+}
