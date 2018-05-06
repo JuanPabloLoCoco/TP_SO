@@ -1,11 +1,11 @@
 #include "include/process.h"
 #include "include/lib.h"
-//#include "include/defs.h"
+#include "include/defs.h"
 #include "include/videoDriver.h"
-//#include "include/mutex.h"
+#include "include/mutex.h"
 #include "include/scheduler.h"
 #include "include/strings.h"
-//#include "include/keyboardDriver.h"
+#include "include/keyboardDriver.h"
 
 extern void * _get_rsp();
 extern void _set_rsp(void * rsp);
@@ -37,7 +37,7 @@ int insertProcess(void * entryPoint, int cargs, void ** pargs) {
 int addProcessSlot(process * process) {
 
 	processSlot * slot = (processSlot *)malloc(sizeof(processSlot));
-	//int notPreviouslyLocked=lockScheduler();
+	int notPreviouslyLocked=lockScheduler();
 
 	slot->process = process;
 
@@ -50,7 +50,7 @@ int addProcessSlot(process * process) {
 		current->next = slot;
 	}
 	cantProcesses++;
-	//if(notPreviouslyLocked) unlockScheduler();
+	if(notPreviouslyLocked) unlockScheduler();
 
 	return process->pid;
 }
@@ -65,7 +65,7 @@ int getForegroundPid() {
 
 void setForeground(int pid) {
 	int i = 0;
-	//int notPreviouslyLocked=lockScheduler();
+	int notPreviouslyLocked = lockScheduler();
 
 	processSlot * slot = foreground;
 	for (; i < cantProcesses; i++) {
@@ -74,34 +74,34 @@ void setForeground(int pid) {
 			foreground = slot;
 //			print("\nnew foreground proceed: ");
 //			printNum(getForegroundPid());
-			//signalCondVar(getSTDINCondVar());
-			//if(notPreviouslyLocked) unlockScheduler();
+			signalSemaphore(getSTDINCondVar());
+			if(notPreviouslyLocked) unlockScheduler();
 
 			return;
 		}
 		slot = slot->next;
 	}
 	// pid does not exists
-	//if(notPreviouslyLocked) unlockScheduler();
+	if(notPreviouslyLocked) unlockScheduler();
 
 	return;
 }
 
 int isRunning(char * name) {
 	int i = 0;
-	//int notPreviouslyLocked=lockScheduler();
+	int notPreviouslyLocked = lockScheduler();
 
 	processSlot * slot = current;
 	for (; i < cantProcesses; i++) {
 		if (strcmp(slot->process->descr, name) == 0) {
 			// process is already running
-			// if(notPreviouslyLocked) unlockScheduler();
+			if(notPreviouslyLocked) unlockScheduler();
 			return 1;
 		}
 		slot = slot->next;
 	}
 	// pid does not exists
-	// if(notPreviouslyLocked) unlockScheduler();
+	if(notPreviouslyLocked) unlockScheduler();
 
 	return 0;
 }
@@ -124,12 +124,12 @@ void changeProcessState(int pid, processState state) {
 			if (slot->process->pid == getForegroundPid() && state == DEAD) {
 				setForeground(1);
 			}
-			// if(notPreviouslyLocked) unlockScheduler();
+			if(notPreviouslyLocked) unlockScheduler();
 			return;
 		}
 		slot = slot->next;
 	}
-	// if(notPreviouslyLocked) unlockScheduler();
+	if(notPreviouslyLocked) unlockScheduler();
 	// pid does not exists
 	//print("pid not found: "); printNum(pid); print("\n");
 	//print("state: "); printNum(state); print("\n");
@@ -169,7 +169,7 @@ void removeProcess(int pid) {
 
 	prevSlot->next = slotToRemove->next;
 	cantProcesses--;
-    addToFreeQueue(slotToRemove);
+  addToFreeQueue(slotToRemove);
 
 }
 
@@ -181,7 +181,6 @@ void sprintAllProcesses(char* buff, int size){
     int copied;
     char pid[0];
     for(; i < cantProcesses; i++) {
-
         copied=strcpy(buff+index,slot->process->descr,size);
         index+=copied;
         size-=copied;
@@ -228,11 +227,11 @@ void sprintAllProcesses(char* buff, int size){
         slot = slot->next;
     }
     buff[index]='\0';
-    //unlockScheduler();
+    unlockScheduler();
 }
 
 void printAllProcesses() {
-	//int notPreviouslyLocked=lockScheduler();
+	int notPreviouslyLocked =lockScheduler();
 
 	processSlot * slot  = current;
 	int i = 0;
@@ -250,7 +249,7 @@ void printAllProcesses() {
 		print("\n");
 		slot = slot->next;
 	}
-	//if(notPreviouslyLocked) unlockScheduler();
+	if(notPreviouslyLocked) unlockScheduler();
 
 }
 
@@ -274,9 +273,8 @@ void * next_process(int current_rsp) {
 
 	schedule();
     int ans=current->process->stack_pointer;
-    //unlockScheduler();
-
-	freeWaitingProcess();
+    unlockScheduler();
+	  freeWaitingProcess();
     return ans;
 }
 
