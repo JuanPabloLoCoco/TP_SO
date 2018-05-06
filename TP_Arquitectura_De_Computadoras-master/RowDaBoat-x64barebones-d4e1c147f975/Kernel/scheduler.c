@@ -36,7 +36,7 @@ int insertProcess(void * entryPoint, int cargs, void ** pargs) {
 
 int addProcessSlot(process * process) {
 
-	processSlot * slot = (processSlot *)malloc(sizeof(processSlot));
+	processSlot * slot = (processSlot *)buddyAllocate(sizeof(processSlot));
 	int notPreviouslyLocked=lockScheduler();
 
 	slot->process = process;
@@ -74,7 +74,7 @@ void setForeground(int pid) {
 			foreground = slot;
 //			print("\nnew foreground proceed: ");
 //			printNum(getForegroundPid());
-			signalSemaphore(getSTDINCondVar());
+			//signalSemaphore(getSTDINCondVar());
 			if(notPreviouslyLocked) unlockScheduler();
 
 			return;

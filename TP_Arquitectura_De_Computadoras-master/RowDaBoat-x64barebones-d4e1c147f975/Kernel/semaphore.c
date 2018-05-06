@@ -5,10 +5,10 @@
 #include "include/scheduler.h"
 #include "include/videoDriver.h"
 
-void addToSemaphoreQueue(semaphore_t * condVar, int pid);
-int removeFromSemaphoreQueue(semaphore_t * condVar);
+void addToSemaphoreQueue(semaphore_t * semaphore, int pid);
+int removeFromSemaphoreQueue(semaphore_t * semaphore);
 
-void initSemaphore(semaphore_t * condVar){
+void initSemaphore(semaphore_t * semaphore){
     semaphore->queueIndex=0;
     semaphore->queueSize=0;
 }
@@ -16,7 +16,7 @@ void initSemaphore(semaphore_t * condVar){
 void waitSemaphore(semaphore_t * semaphore, int mutex){
     lockScheduler();
     condVar->mutex = mutex;
-    addToSemaphoreQueue(condVar,getCurrentPid());
+    addToSemaphoreQueue(semaphore,getCurrentPid());
     changeProcessState(getCurrentPid(),BLOCKED);
     unlockMutex(mutex);
     unlockScheduler();

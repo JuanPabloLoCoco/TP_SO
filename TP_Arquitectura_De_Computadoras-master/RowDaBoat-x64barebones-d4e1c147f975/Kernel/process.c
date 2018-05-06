@@ -50,7 +50,7 @@ void freeProcess(process * process) {
 }
 
 process * createProcess(void * entryPoint, int cargs, void ** pargs) {
-	process * newProcess = (process *)malloc(sizeof(process));
+	process * newProcess = (process *)buddyAllocate(sizeof(process));
 	newProcess->entry_point = entryPoint;
 	newProcess->stack_base = buddyAllocatePages(INIT_PROCESS_PAGES);
 	newProcess->cantPages = INIT_PROCESS_PAGES;
