@@ -46,13 +46,15 @@ uint64_t systemCallDispatcher(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t
 			case 13:
 				result = sys_ChangeColor(rdi,rsi,rdx);
 				break;
+			case 14:
+				result = sys_allocPage(rdi);
+				break;
 		}
-		
 		return result;
 }
 
 uint64_t sys_read(uint64_t fd, char* destination, uint64_t count){
-	
+
 	uint64_t i = 0;
 	int c = 0;
     if (fd == 0) {
@@ -150,4 +152,10 @@ uint64_t sys_setPointer(uint64_t x, uint64_t y) {
 uint64_t sys_ChangeColor(uint64_t blue,uint64_t green,uint64_t red){
 	setFontColor(blue,green,red);
 	return 0;
+}
+
+uint64_t sys_allocPage(uint64_t toAlloc){
+	void** ad =(void**)address;
+ 	*ad= buddyAllocate(toAlloc);
+	return ad	;
 }
