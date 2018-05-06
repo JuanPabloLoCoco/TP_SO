@@ -1,4 +1,4 @@
-#include <math.h>
+#include "include/math.h"
 
 int isPowerOfTwo (uint64_t x){
     return ((x != 0) && !(x & (x - 1)));

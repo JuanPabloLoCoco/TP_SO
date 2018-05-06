@@ -2,7 +2,8 @@
 #include "include/videoDriver.h"
 #include "include/lib.h"
 // #include "include/mutex.h"
-#include "include/scheduler.h"
+// #include "include/scheduler.h"
+#include "include/math.h"
 #define NULL ((void*)0)
 
 /* Initializing heap*/
@@ -154,7 +155,7 @@ int isInt(float f){
 int buddyFree(void* address){
     int ans;
 
-    lockMutex(mutex);
+    // lockMutex(mutex);
 
     address= (void*)((char*)address -  (char*)beginning);
 
@@ -165,7 +166,7 @@ int buddyFree(void* address){
         ans= searchUp(heapSize/2 + 1 + position,1);
     }
 
-    unlockMutex(mutex);
+    // unlockMutex(mutex);
 
     return ans;
 
