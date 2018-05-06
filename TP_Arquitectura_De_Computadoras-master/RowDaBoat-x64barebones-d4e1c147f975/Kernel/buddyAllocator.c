@@ -1,9 +1,11 @@
 #include "include/buddyAllocator.h"
 #include "include/videoDriver.h"
 #include "include/lib.h"
-// #include "include/mutex.h"
-// #include "include/scheduler.h"
+#include "include/mutex.h"
+#include "include/scheduler.h"
 #include "include/math.h"
+#include "include/defs.h"
+
 #define NULL ((void*)0)
 
 /* Initializing heap*/
@@ -27,18 +29,18 @@ static uint16_t heap[MAXHEAPSIZE];
 static uint64_t heapSize;
 static uint64_t block;
 static void* beginning=(void*)MEMBEGIN;
-// static int mutex;
+static int mutex;
 
 void* buddyAllocate(uint64_t amount){
     if(amount<=0) return NULL;
 
-    // lockMutex(mutex);
+    lockMutex(mutex);
 
     uint64_t pages = roundUpPower2( amount/block );
     pages = pages == 0 ? 1 : pages;
     void* ans = addNblocks(pages);
 
-    // unlockMutex(mutex);
+    unlockMutex(mutex);
 
     return ans;
 }
@@ -46,11 +48,11 @@ void* buddyAllocate(uint64_t amount){
 void* buddyAllocatePages(uint64_t pages){
     if (pages==0) return NULL;
 
-    //lockMutex(mutex);
+    lockMutex(mutex);
 
     void* ans=addNblocks(pages);
 
-    // unlockMutex(mutex);
+    unlockMutex(mutex);
 
     return ans;
 }
@@ -75,7 +77,7 @@ uint16_t myMask(uint16_t n){
 }
 
 void initializeHeap(){
-    // mutex=getMutex(PAGESMUTEX);
+    mutex=getMutex(PAGESMUTEX);
     block=MINPAGE;
     heapSize=MAXHEAPSIZE;
     recursiveMark(1);
