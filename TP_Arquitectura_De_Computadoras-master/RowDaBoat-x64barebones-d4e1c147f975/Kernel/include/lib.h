@@ -14,21 +14,9 @@ char *cpuVendor(char *result);
 
 #define PAGE_SIZE 4*1024
 
-int getSeconds(void);
-int getMinutes(void);
-int getHours(void);
-int getYear(void);
-int getMonth(void);
-int getDay(void);
-
-
 void readKeyboard(void);
-
 void setup_IDT_entry (int index, uint64_t offset);
-
 void timerTickHandler(void);
-
 void setUPTimerTickHandler(void);
-
 
 #endif
