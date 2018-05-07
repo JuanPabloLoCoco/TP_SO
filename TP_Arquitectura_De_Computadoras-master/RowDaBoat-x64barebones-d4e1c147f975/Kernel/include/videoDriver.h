@@ -1,5 +1,5 @@
-#ifndef _VIDEO_DRIVER_H_
-#define _VIDEO_DRIVER_H_
+#ifndef VIDEO_DRIVER_H
+#define VIDEO_DRIVER_H
 
 #define RED_MASK 0x00FF0000
 #define GREEN_MASK 0x00FF00
@@ -28,7 +28,7 @@ void draw_pixel(int x, int y);
 void draw_pixel_with_color(int x, int y,Color color);
 
 /*prints the given char on the screen at the pointers position*/
-void draw_char(uint8_t l); 
+void draw_char(uint8_t l);
 
 /*draw the given char on the screen at the given position*/
 void draw_char_position(uint8_t l, int x, int y);
@@ -58,7 +58,7 @@ void eraseLine(int y);
 void copyLine(int to, int from);
 
 /*clears the screen*/
-void cls();   
+void cls();
 
 /*paints all the screen with the given color*/
 void setBackgroundColor(Color color);

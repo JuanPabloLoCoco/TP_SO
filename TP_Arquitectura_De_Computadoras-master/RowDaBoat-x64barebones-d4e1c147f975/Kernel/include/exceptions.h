@@ -1,5 +1,5 @@
-#ifndef _EXCEPTIONS_H_
-#define _EXCEPTIONS_H_
+#ifndef EXCEPTIONS_H
+#define EXCEPTIONS_H
 
 #define ZERO_EXCEPTION_ID 0
 #define INVALID_OPCODE_EXCEPTION_ID 6

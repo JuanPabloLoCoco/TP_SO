@@ -1,5 +1,5 @@
-#ifndef _KEYBOARD_MAP_H_
-#define _KEYBOARD_MAP_H_
+#ifndef KEYBOARD_MAP_H
+#define KEYBOARD_MAP_H
 
 //http://www.osdever.net/bkerndev/Docs/keyboard.htm
 

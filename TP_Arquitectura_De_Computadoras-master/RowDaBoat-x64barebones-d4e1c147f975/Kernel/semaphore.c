@@ -15,7 +15,7 @@ void initSemaphore(semaphore_t * semaphore){
 
 void waitSemaphore(semaphore_t * semaphore, int mutex){
     lockScheduler();
-    condVar->mutex = mutex;
+    semaphore->mutex = mutex;
     addToSemaphoreQueue(semaphore,getCurrentPid());
     changeProcessState(getCurrentPid(),BLOCKED);
     unlockMutex(mutex);

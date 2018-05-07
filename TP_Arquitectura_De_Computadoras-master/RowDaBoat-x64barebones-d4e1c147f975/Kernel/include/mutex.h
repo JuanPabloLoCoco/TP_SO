@@ -1,5 +1,5 @@
-#ifndef _MUTEX_H
-#define _MUTEX_H
+#ifndef MUTEX_H
+#define MUTEX_H
 
 
 #include "IPCstructs.h"

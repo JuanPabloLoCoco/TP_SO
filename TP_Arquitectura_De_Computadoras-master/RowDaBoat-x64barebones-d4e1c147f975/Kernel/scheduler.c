@@ -74,7 +74,7 @@ void setForeground(int pid) {
 			foreground = slot;
 //			print("\nnew foreground proceed: ");
 //			printNum(getForegroundPid());
-			//signalSemaphore(getSTDINCondVar());
+			//signalSemaphore(getSTDINSemaphore());
 			if(notPreviouslyLocked) unlockScheduler();
 
 			return;

@@ -27,4 +27,4 @@ int equalProcesses(process * p1, process * p2);
 void * fill_stack(void * entryPoint, void * stack_base, int cargs, void ** pargs);
 process * createProcess(void * entryPoint, int cargs, void ** pargs);
 
-#endif //PROCESS_H
+#endif

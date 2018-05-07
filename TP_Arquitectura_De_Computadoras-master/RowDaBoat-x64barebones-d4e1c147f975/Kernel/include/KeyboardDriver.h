@@ -1,5 +1,5 @@
-#ifndef _KEYBOARD_DRIVER_H_
-#define _KEAYBOARD_DRIVER_H_
+#ifndef KEYBOARD_DRIVER_H
+#define KEYBOARD_DRIVER_H
 
 #define SHIFT 0
 #define CONTROL 1

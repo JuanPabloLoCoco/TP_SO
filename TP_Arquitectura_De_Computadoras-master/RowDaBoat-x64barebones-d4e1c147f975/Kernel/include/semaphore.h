@@ -1,5 +1,5 @@
-#ifndef _SEMAPHORE_H
-#define _SEMAPHORE_H
+#ifndef SEMAPHORE_H
+#define SEMAPHORE_H
 
 #define MAX_SEMAPHORE_NAME_LENGHT 50
 #define MAX_SEMAPHORE_QUEUE_SIZE 50
@@ -18,4 +18,4 @@ void waitSemaphore(semaphore_t * semaphore, int mutex);
 void signalSemaphore(semaphore_t * semaphore);
 void broadcastSemaphore(semaphore_t * semaphore);
 
-#endif //_Semaphore_H
+#endif

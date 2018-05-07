@@ -1,5 +1,5 @@
-#ifndef _SYSTEM_CALLER_DISPATCHER_H_
-#define _SYSTEM_CALLER_DISPATCHER_H_
+#ifndef SYSTEM_CALLER_DISPATCHER_H
+#define SYSTEM_CALLER_DISPATCHER_H
 
 
 uint64_t sys_read(uint64_t fd, char* destination, uint64_t count);

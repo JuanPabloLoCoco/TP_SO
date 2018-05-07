@@ -1,5 +1,5 @@
-#ifndef _MODE_INFO_H_
-#define _MODE_INFO_H_
+#ifndef MODE_INFO_H
+#define MODE_INFO_H
 
 
 //http://wiki.osdev.org/User:Omarrx024/VESA_Tutorial
@@ -25,7 +25,7 @@ typedef struct MODE_INFO {
    uint8_t bank_size;        __attribute__ ((packed));// deprecated; size of a bank, almost always 64 KB but may be 16 KB...
    uint8_t image_pages;      __attribute__ ((packed));
    uint8_t reserved0;        __attribute__ ((packed));
- 
+
    uint8_t red_mask;         __attribute__ ((packed));
    uint8_t red_position;     __attribute__ ((packed));
    uint8_t green_mask;       __attribute__ ((packed));
@@ -35,7 +35,7 @@ typedef struct MODE_INFO {
    uint8_t reserved_mask;    __attribute__ ((packed));
    uint8_t reserved_position;         __attribute__ ((packed));
    uint8_t direct_color_attributes;   __attribute__ ((packed));
- 
+
    uint32_t framebuffer;           __attribute__ ((packed));// physical address of the linear frame buffer; write here to draw to the screen
    uint32_t off_screen_mem_off;    __attribute__ ((packed));
    uint16_t off_screen_mem_size;   __attribute__ ((packed));// size of memory in the framebuffer but not being displayed on the screen

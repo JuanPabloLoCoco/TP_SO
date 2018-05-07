@@ -1,5 +1,5 @@
-#ifndef _IDTLOADER_H_
-#define _IDTLOADER_H_
+#ifndef IDTLOADER_H
+#define IDTLOADER_H
 
 void load_idt();
 

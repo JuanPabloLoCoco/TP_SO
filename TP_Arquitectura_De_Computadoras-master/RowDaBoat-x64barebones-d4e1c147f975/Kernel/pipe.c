@@ -48,8 +48,8 @@ pipe_t createPipe(char* name){
     mname[0]='W';
     newPipe->writeMutex=getMutex(mname);
 
-    initCondVar(&(newPipe->readCondVar));
-    initCondVar(&(newPipe->writeCondVar));
+    initSemaphore(&(newPipe->readSemaphore));
+    initSemaphore(&(newPipe->writeSemaphore));
 
     return newPipe;
 }
@@ -132,14 +132,14 @@ int writePipe(pipe_t pipe,char* msg, uint64_t amount){
     int i;
     lockMutex(pipe->writeMutex);
     while (pipe->bufferSize >= MINPAGE){
-        waitCondVar(&pipe->writeCondVar,pipe->writeMutex);
+        waitSemaphore(&pipe->writeSemaphore,pipe->writeMutex);
     }
     lockMutex(pipe->mutex);
     for(i=0;i<amount;i++){
         pipe->buffer[(pipe->initialIndex + pipe->bufferSize) %MINPAGE]=msg[i];
         pipe->bufferSize ++;
     }
-    signalCondVar(&pipe->readCondVar);
+    signalSemaphore(&pipe->readSemaphore);
     unlockMutex(pipe->mutex);
     unlockMutex(pipe->writeMutex);
     return 1;
@@ -149,7 +149,7 @@ int readPipe(pipe_t pipe,char* ans,uint64_t amount){
     int j,i;
     lockMutex(pipe->readMutex);
     while (pipe->bufferSize <= 0){
-        waitCondVar(&pipe->readCondVar,pipe->readMutex);
+        waitSemaphore(&pipe->readSemaphore,pipe->readMutex);
     }
 
     lockMutex(pipe->mutex);
@@ -159,7 +159,7 @@ int readPipe(pipe_t pipe,char* ans,uint64_t amount){
         pipe->bufferSize--;
 
     }
-    signalCondVar(&pipe->writeCondVar);
+    signalSemaphore(&pipe->writeSemaphore);
     unlockMutex(pipe->mutex);
 
     unlockMutex(pipe->readMutex);

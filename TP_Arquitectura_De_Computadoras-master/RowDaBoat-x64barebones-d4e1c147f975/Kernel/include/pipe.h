@@ -1,8 +1,8 @@
-#ifndef _PIPE_H
-#define _PIPE_H
+#ifndef PIPE_H
+#define PIPE_H
 
 #include <stdint.h>
-#include "condvar.h"
+#include "semaphore.h"
 
 #include "IPCstructs.h"
 #define MAX_PIPES 100
@@ -15,8 +15,8 @@ typedef struct{
     int mutex;
     int readMutex;
     int writeMutex;
-    condVar_t readCondVar;
-    condVar_t writeCondVar;
+    semaphore_t readSemaphore;
+    semaphore_t writeSemaphore;
     char* name;
 }pipe_s;
 
@@ -31,4 +31,5 @@ void initIPC();
 int getPipesNames(ipcs* ans,int cant);
 
 #define MAX_PIPE_NAME 15
+
 #endif
