@@ -1,7 +1,7 @@
 #ifndef DEFS_H
 #define DEFS_H
 
-
+typedef unsigned long qword;
 /* Flags para derechos de acceso de los segmentos */
 #define ACS_PRESENT     0x80            /* segmento presente en memoria */
 #define ACS_CSEG        0x18            /* segmento de codigo */

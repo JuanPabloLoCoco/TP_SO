@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include "include/math.h"
 
 int isPowerOfTwo (uint64_t x){

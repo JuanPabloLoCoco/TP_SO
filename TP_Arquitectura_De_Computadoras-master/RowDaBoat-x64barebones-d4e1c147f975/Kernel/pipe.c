@@ -1,5 +1,5 @@
 #include "include/pipe.h"
-#include "include/buddyMemManager.h"
+#include "include/buddyAllocator.h"
 #include "include/lib.h"
 #include "include/strings.h"
 #include "include/mutex.h"

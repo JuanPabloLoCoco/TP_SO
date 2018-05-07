@@ -1,8 +1,8 @@
 #include "include/process.h"
 #include "include/lib.h"
-#include "include/buddyMemManager.h"
+#include "include/buddyAllocator.h"
 #include "include/videoDriver.h"
-#include "include/syscall.h"
+#include "include/systemCallDispatcher.h"
 #include "include/pipe.h"
 
 #define INIT_PROCESS_PAGES 4
