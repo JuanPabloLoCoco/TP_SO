@@ -263,19 +263,21 @@ void printAllProcesses()
 	processSlot * slot  = current;
 	int i = 0;
 	for(; i < cantProcesses; i++) {
-		print(slot->process->descr);
-		print(" pid: ");
-    printNum(slot->process->pid);
-		print(" ");
-    print(stateDescription[slot->process->state]);
+		draw_word(slot->process->descr);
+		draw_word(" pid: ");
+    draw_word(slot->process->pid);
+		draw_word(" ");
+    draw_word(stateDescription[slot->process->state]);
 
 		if (getForegroundPid() == slot->process->pid)
 		{
-			print(" "); print("fg");
+			draw_word(" ");
+			draw_word("fg");
 		} else {
-			print(" "); print("bg");
+			draw_word(" ");
+			draw_word("bg");
 		}
-		print("\n");
+		draw_word("\n");
 		slot = slot->next;
 	}
 	if(notPreviouslyLocked) unlockScheduler();

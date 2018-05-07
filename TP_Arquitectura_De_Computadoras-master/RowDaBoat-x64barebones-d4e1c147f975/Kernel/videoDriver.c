@@ -2,7 +2,7 @@
 #include <videoDriver.h>
 #include <modeInfo.h>
 #include <font.h>
-
+#include <string.h>
 
 MODE_INFO * mode_info = (MODE_INFO*)0x0000000000005C00;
 Pointer pointer = {0,0};
@@ -41,20 +41,24 @@ void draw_pixel_with_color(int x, int y,Color color)
 /*prints the given char on the screen at the pointers position*/
 void draw_char(uint8_t l)
 {
-   char * letter = pixel_map(l);
-   int i,j;
-   if(pointer.x + CHAR_WIDTH - 1 >= mode_info->width)
-   {
-      lastEnter = mode_info->width-1;
-      if(pointer.y +CHAR_HEIGHT >= mode_info->height)
-      {
-         scrollUp();
-         pointer.y = mode_info->height - CHAR_HEIGHT;
-      }
-      else
-      {
-         pointer.y+=CHAR_HEIGHT;
-      }
+  if (l=='\n')
+  {
+    newLine();
+  }
+  char * letter = pixel_map(l);
+  int i,j;
+  if(pointer.x + CHAR_WIDTH - 1 >= mode_info->width)
+  {
+    lastEnter = mode_info->width-1;
+    if(pointer.y +CHAR_HEIGHT >= mode_info->height)
+    {
+      scrollUp();
+      pointer.y = mode_info->height - CHAR_HEIGHT;
+    }
+    else
+    {
+      pointer.y+=CHAR_HEIGHT;
+    }
       pointer.x = 0;
    }
    for(i = 0; i<CHAR_HEIGHT;i++)
@@ -121,7 +125,8 @@ void draw_char_position(uint8_t l, int x, int y)
  void draw_word(char * word)
  {
     int i = 0;
-    while(word[i]) {
+    for  (; word[i] != '\0'; i++)
+    {
        draw_char(word[i]);
        i++;
     }
@@ -302,4 +307,11 @@ void eraseLine(int y)
           return 'F';
     }
     return 0;
+ }
+
+ void printNum(int num)
+ {
+   char str[10];
+   intToString(str, num);
+   draw_word(str);
  }

@@ -78,4 +78,6 @@ void printHexaNumber(uint64_t number);
 */
 static char toHexa(uint64_t n);
 
+void printNum(int num);
+
 #endif
