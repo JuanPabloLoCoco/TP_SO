@@ -9,11 +9,14 @@
 static pipe_t pipes[MAX_PIPES];
 static int pipeMutex;
 
-int getPipesNames(ipcs* ans,int cant){
+int getPipesNames(ipcs* ans,int cant)
+{
     int j;
     int i;
-    for (i = 0,j=0; j < cant && i<MAX_PIPES; ++i) {
-        if(pipes[i]!=(pipe_t )0){
+    for (i = 0,j=0; j < cant && i<MAX_PIPES; ++i)
+    {
+        if(pipes[i]!=(pipe_t )0)
+        {
             strcpy(ans->pipesNames[j],pipes[i]->name,MAX_PIPE_NAME);
             j++;
         }
@@ -21,14 +24,17 @@ int getPipesNames(ipcs* ans,int cant){
     return j;
 }
 
-void initIPC(){
-    for (int i = 0; i < MAX_PIPES; ++i) {
+void initIPC()
+{
+    for (int i = 0; i < MAX_PIPES; ++i)
+    {
         pipes[i]=(pipe_t )0;
     }
     pipeMutex = getMutex(PIPES_MUTEX);
 }
 
-pipe_t createPipe(char* name){
+pipe_t createPipe(char* name)
+{
     if(name[0]=='\0') return (pipe_t)0;
     char mname[16]={'p','_'};
     strcpy(mname+1,name,13);
@@ -54,33 +60,40 @@ pipe_t createPipe(char* name){
     return newPipe;
 }
 
-int addPipe(pipe_t p){
+int addPipe(pipe_t p)
+{
     if(p==0) return 0;
 
     process* me=getMyProcessData();
     int i;
-    for (i = 0; i < 5; ++i) {
-        if(me->fd[i]==0){
+    for (i = 0; i < 5; ++i)
+    {
+        if(me->fd[i]==0)
+        {
             me->fd[i]=p;
             break;
-        }else if(me->fd[i] == p){
+        }else if(me->fd[i] == p)
+        {
             break;
         }
     }
     return (i==5)?-1:i;
 }
 
-pipe_t getPipe(char* name){
+pipe_t getPipe(char* name)
+{
     lockMutex(pipeMutex);
 
     int pos=whereIsPipe(name);
-    if(pos!=-1){
+    if(pos!=-1)
+    {
         unlockMutex(pipeMutex);
         return pipes[pos];
     }
 
     pos = nextfreePipe(name);
-    if(pos!=-1){
+    if(pos!=-1)
+    {
         pipes[pos]=createPipe(name);
         unlockMutex(pipeMutex);
         return pipes[pos];
@@ -89,9 +102,12 @@ pipe_t getPipe(char* name){
     return (pipe_t)0;
 }
 
-int whereIsPipe(char* name){
-    for (int i = 0; i < MAX_PIPES; ++i) {
-        if(pipes[i]!=0) {
+int whereIsPipe(char* name)
+{
+    for (int i = 0; i < MAX_PIPES; ++i)
+    {
+        if(pipes[i]!=0)
+        {
             if (strcmp(pipes[i]->name, name) == (pipe_t)0)
                 return i;
         }
@@ -99,43 +115,52 @@ int whereIsPipe(char* name){
     return -1;
 }
 
-void releasePipe(char* name){
+void releasePipe(char* name)
+{
     lockMutex(pipeMutex);
     int pos = whereIsPipe(name);
-    if(pos!=-1){
+    if(pos!=-1)
+    {
         deletePipe(pipes[pos]);
         pipes[pos]=0;
     }
     unlockMutex(pipeMutex);
 }
 
-int nextfreePipe(char* name){
+int nextfreePipe(char* name)
+{
     int i;
-    for(i=0;i<MAX_PIPES;i++){
-        if(pipes[i]==0){
+    for(i=0;i<MAX_PIPES;i++)
+    {
+        if(pipes[i]==0)
+        {
             return i;
         }
     }
     return -1;
 }
 
-void deletePipe(pipe_t pipe){
-    free(pipe->name);
+void deletePipe(pipe_t pipe)
+{
+    buddyFree(pipe->name);
     buddyFree(pipe->buffer);
     releaseMutexFromPos(pipe->writeMutex);
     releaseMutexFromPos(pipe->readMutex);
     releaseMutexFromPos(pipe->mutex);
-    free(pipe);
+    buddyFree(pipe);
 }
 
-int writePipe(pipe_t pipe,char* msg, uint64_t amount){
+int writePipe(pipe_t pipe,char* msg, uint64_t amount)
+{
     int i;
     lockMutex(pipe->writeMutex);
-    while (pipe->bufferSize >= MINPAGE){
+    while (pipe->bufferSize >= MINPAGE)
+    {
         waitSemaphore(&pipe->writeSemaphore,pipe->writeMutex);
     }
     lockMutex(pipe->mutex);
-    for(i=0;i<amount;i++){
+    for(i=0;i<amount;i++)
+    {
         pipe->buffer[(pipe->initialIndex + pipe->bufferSize) %MINPAGE]=msg[i];
         pipe->bufferSize ++;
     }
@@ -145,19 +170,21 @@ int writePipe(pipe_t pipe,char* msg, uint64_t amount){
     return 1;
 }
 
-int readPipe(pipe_t pipe,char* ans,uint64_t amount){
+int readPipe(pipe_t pipe,char* ans,uint64_t amount)
+{
     int j,i;
     lockMutex(pipe->readMutex);
-    while (pipe->bufferSize <= 0){
+    while (pipe->bufferSize <= 0)
+    {
         waitSemaphore(&pipe->readSemaphore,pipe->readMutex);
     }
 
     lockMutex(pipe->mutex);
-    for(j=0;j<amount && pipe->bufferSize>0;j++){
+    for(j=0;j<amount && pipe->bufferSize>0;j++)
+    {
         ans[j]=pipe->buffer[pipe->initialIndex%MINPAGE];
         pipe->initialIndex = (pipe->initialIndex + 1)%MINPAGE;
         pipe->bufferSize--;
-
     }
     signalSemaphore(&pipe->writeSemaphore);
     unlockMutex(pipe->mutex);

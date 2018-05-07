@@ -23,29 +23,34 @@ static processSlot * processToFree[500];
 
 int debug=0;
 
-process* getMyProcessData(){
+process* getMyProcessData()
+{
 	return current->process;
 }
 
 
-int insertProcess(void * entryPoint, int cargs, void ** pargs) {
+int insertProcess(void * entryPoint, int cargs, void ** pargs)
+{
 	process * p = createProcess(entryPoint, (int)cargs, (void **)pargs);
-    return addProcessSlot(p);
+  return addProcessSlot(p);
 
 }
 
-int addProcessSlot(process * process) {
+int addProcessSlot(process * process)
+{
 
 	processSlot * slot = (processSlot *)buddyAllocate(sizeof(processSlot));
 	int notPreviouslyLocked=lockScheduler();
 
 	slot->process = process;
 
-	if (current == NULL) {
+	if (current == NULL)
+	{
 		current = slot;
 		foreground = slot;
 		current->next = current;
-	} else {
+	} else
+	{
 		slot->next = current->next;
 		current->next = slot;
 	}
@@ -55,21 +60,26 @@ int addProcessSlot(process * process) {
 	return process->pid;
 }
 
-int getCurrentPid() {
+int getCurrentPid()
+{
 	return current==NULL?-1:current->process->pid;
 }
 
-int getForegroundPid() {
+int getForegroundPid()
+{
 	return foreground->process->pid;
 }
 
-void setForeground(int pid) {
+void setForeground(int pid)
+{
 	int i = 0;
 	int notPreviouslyLocked = lockScheduler();
 
 	processSlot * slot = foreground;
-	for (; i < cantProcesses; i++) {
-		if (slot->process->pid == pid) {
+	for (; i < cantProcesses; i++)
+	{
+		if (slot->process->pid == pid)
+		{
 			// new foreground process found
 			foreground = slot;
 //			print("\nnew foreground proceed: ");
@@ -87,13 +97,16 @@ void setForeground(int pid) {
 	return;
 }
 
-int isRunning(char * name) {
+int isRunning(char * name)
+{
 	int i = 0;
 	int notPreviouslyLocked = lockScheduler();
 
 	processSlot * slot = current;
-	for (; i < cantProcesses; i++) {
-		if (strcmp(slot->process->descr, name) == 0) {
+	for (; i < cantProcesses; i++)
+	{
+		if (strcmp(slot->process->descr, name) == 0)
+		{
 			// process is already running
 			if(notPreviouslyLocked) unlockScheduler();
 			return 1;
@@ -106,22 +119,27 @@ int isRunning(char * name) {
 	return 0;
 }
 
-void changeProcessState(int pid, processState state) {
+void changeProcessState(int pid, processState state)
+{
 
 	int i = 0;
 	if(pid==0 || pid==1 && state==DEAD) return;
 	int notPreviouslyLocked=lockScheduler();
     processSlot * slot = current;
-	for (; i < cantProcesses; i++) {
-		if (slot->process->pid == pid) {
+	for (; i < cantProcesses; i++)
+	{
+		if (slot->process->pid == pid)
+		{
 			// process found
-			if(slot->process->state == DEAD){
-                if(notPreviouslyLocked) unlockScheduler();
+			if(slot->process->state == DEAD)
+			{
+        if(notPreviouslyLocked) unlockScheduler();
 				return;
 			}
 			slot->process->state = state;
 
-			if (slot->process->pid == getForegroundPid() && state == DEAD) {
+			if (slot->process->pid == getForegroundPid() && state == DEAD)
+			{
 				setForeground(1);
 			}
 			if(notPreviouslyLocked) unlockScheduler();
@@ -136,16 +154,20 @@ void changeProcessState(int pid, processState state) {
 	return;
 }
 
-void addToFreeQueue(processSlot * slot){
+void addToFreeQueue(processSlot * slot)
+{
     processToFree[amountFreeableProcess]=slot;
     amountFreeableProcess++;
 }
 
-void removeProcess(int pid) {
-	if (current == NULL) {
+void removeProcess(int pid)
+{
+	if (current == NULL)
+	{
 		return;
 
-	} else if(equalProcesses(current->process, current->next->process) && current->process->pid == pid) {
+	} else if(equalProcesses(current->process, current->next->process) && current->process->pid == pid)
+	{
 		// process to remove is the current and only one process in list
         addToFreeQueue(current);
         current = NULL;
@@ -157,12 +179,14 @@ void removeProcess(int pid) {
 	processSlot * prevSlot = current;
 	processSlot * slotToRemove = current->next;
 
-	while (slotToRemove->process->pid != pid) {
+	while (slotToRemove->process->pid != pid)
+	{
 		prevSlot = slotToRemove;
 		slotToRemove = slotToRemove->next;
 	}
 
-	if (equalProcesses(slotToRemove->process, current->process)) {
+	if (equalProcesses(slotToRemove->process, current->process))
+	{
 		// process to remove is the current
 		current = current->next;
 	}
@@ -173,7 +197,8 @@ void removeProcess(int pid) {
 
 }
 
-void sprintAllProcesses(char* buff, int size){
+void sprintAllProcesses(char* buff, int size)
+{
     int index=0;
     // lockScheduler();
     processSlot * slot  = current;
@@ -218,7 +243,8 @@ void sprintAllProcesses(char* buff, int size){
             index+=copied;
             size-=copied;
             if(size<=0) break;
-        }else{
+        }else
+				{
             copied=strcpy(buff+index," bg\n",size);
             index+=copied;
             size-=copied;
@@ -230,7 +256,8 @@ void sprintAllProcesses(char* buff, int size){
     unlockScheduler();
 }
 
-void printAllProcesses() {
+void printAllProcesses()
+{
 	int notPreviouslyLocked =lockScheduler();
 
 	processSlot * slot  = current;
@@ -241,7 +268,9 @@ void printAllProcesses() {
     printNum(slot->process->pid);
 		print(" ");
     print(stateDescription[slot->process->state]);
-		if (getForegroundPid() == slot->process->pid) {
+
+		if (getForegroundPid() == slot->process->pid)
+		{
 			print(" "); print("fg");
 		} else {
 			print(" "); print("bg");
@@ -253,20 +282,25 @@ void printAllProcesses() {
 
 }
 
-void freeProcessSlot(processSlot * slot) {
+void freeProcessSlot(processSlot * slot)
+{
 	freeProcess(slot->process);
-	free(slot);
+	buddyFree(slot);
 
 }
 
-void freeWaitingProcess(){
-    for(int i=0;i<amountFreeableProcess;i++){
+void freeWaitingProcess()
+{
+    for(int i=0;i<amountFreeableProcess;i++)
+		{
         freeProcessSlot(processToFree[i]);
     }
 }
 
-void * next_process(int current_rsp) {
-	if (current == NULL || !lockScheduler()) {
+void * next_process(int current_rsp)
+{
+	if (current == NULL || !lockScheduler())
+	{
 		return current_rsp;
 	}
 	current->process->stack_pointer = current_rsp;
@@ -278,10 +312,12 @@ void * next_process(int current_rsp) {
     return ans;
 }
 
-void schedule() {
+void schedule()
+{
     amountFreeableProcess=0;
 
-	if (current->process->state == DEAD) {
+	if (current->process->state == DEAD)
+	{
 			//print("Process found DEAD.\n");
 			removeProcess(current->process->pid);
 	}
@@ -290,11 +326,15 @@ void schedule() {
 		current->process->state = READY;
 
 	current = current->next;
-	while (current->process->state != READY) {
-		if (current->process->state == DEAD) {
+	while (current->process->state != READY)
+	{
+		if (current->process->state == DEAD)
+		{
 			//print("Process found DEAD.\n");
 			removeProcess(current->process->pid);
-		} else{
+		}
+		else
+		{
 				current = current->next;
 		}
 	}
@@ -302,6 +342,7 @@ void schedule() {
 	current->process->state = RUNNING;
 }
 
-void beginScheduler() {
+void beginScheduler()
+{
 	((int (*)(void))(current->process->entry_point))();
 }
