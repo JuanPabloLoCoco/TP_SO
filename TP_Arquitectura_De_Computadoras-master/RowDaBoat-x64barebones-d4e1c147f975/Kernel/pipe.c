@@ -33,8 +33,8 @@ pipe_t createPipe(char* name){
     char mname[16]={'p','_'};
     strcpy(mname+1,name,13);
     mname[15]='\0';
-    pipe_t newPipe= malloc(sizeof(*newPipe));
-    newPipe->name=malloc(MAX_PIPE_NAME+1);
+    pipe_t newPipe= buddyAllocate(sizeof(*newPipe));
+    newPipe->name=buddyAllocate(MAX_PIPE_NAME+1);
     strcpy(newPipe->name,name,MAX_PIPE_NAME);
 
     newPipe->mutex=getMutex(mname);

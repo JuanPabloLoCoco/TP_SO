@@ -6,13 +6,10 @@
 #include "include/math.h"
 #include "include/defs.h"
 
-#define NULL ((void*) 0)
-
 #define PARENT(i) ((i) >> 1)
 #define LCHILD(i) ((i) << 1)
 #define RCHILD(i) (((i) << 1) + 1)
 #define AMILEFT(i) !((i) % 2)
-#define SIBLING(i) ((i) % 2 ? ((i) - 1) : ((i) + 1))
 #define ISNAVAILABLE(i,n) ((i)&(myBit(n)))
 
 static uint16_t heap[MAXHEAPSIZE];
