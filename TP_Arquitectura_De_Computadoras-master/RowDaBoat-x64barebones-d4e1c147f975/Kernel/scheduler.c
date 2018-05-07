@@ -49,7 +49,8 @@ int addProcessSlot(process * process)
 		current = slot;
 		foreground = slot;
 		current->next = current;
-	} else
+	}
+	else
 	{
 		slot->next = current->next;
 		current->next = slot;
@@ -166,7 +167,8 @@ void removeProcess(int pid)
 	{
 		return;
 
-	} else if(equalProcesses(current->process, current->next->process) && current->process->pid == pid)
+	}
+	else if(equalProcesses(current->process, current->next->process) && current->process->pid == pid)
 	{
 		// process to remove is the current and only one process in list
         addToFreeQueue(current);
@@ -200,7 +202,7 @@ void removeProcess(int pid)
 void sprintAllProcesses(char* buff, int size)
 {
     int index=0;
-    // lockScheduler();
+    lockScheduler();
     processSlot * slot  = current;
     int i = 0;
     int copied;
@@ -308,15 +310,15 @@ void * next_process(int current_rsp)
 	current->process->stack_pointer = current_rsp;
 
 	schedule();
-    int ans=current->process->stack_pointer;
-    unlockScheduler();
-	  freeWaitingProcess();
-    return ans;
+  int ans=current->process->stack_pointer;
+  unlockScheduler();
+  freeWaitingProcess();
+  return ans;
 }
 
 void schedule()
 {
-    amountFreeableProcess=0;
+  amountFreeableProcess=0;
 
 	if (current->process->state == DEAD)
 	{

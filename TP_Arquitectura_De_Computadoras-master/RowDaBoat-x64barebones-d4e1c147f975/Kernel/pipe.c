@@ -72,7 +72,8 @@ int addPipe(pipe_t p)
         {
             me->fd[i]=p;
             break;
-        }else if(me->fd[i] == p)
+        }
+        else if(me->fd[i] == p)
         {
             break;
         }

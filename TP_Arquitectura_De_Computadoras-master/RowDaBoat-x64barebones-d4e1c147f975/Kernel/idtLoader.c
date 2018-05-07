@@ -7,7 +7,8 @@
 #pragma pack (1) 		/* Alinear las siguiente estructuras a 1 byte */
 
 /* Descriptor de interrupcion */
-typedef struct {
+typedef struct
+{
   uint16_t offset_l, selector;
   uint8_t cero, access;
   uint16_t offset_m;

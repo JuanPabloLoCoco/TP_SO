@@ -17,5 +17,7 @@ void initSemaphore(semaphore_t * semaphore);
 void waitSemaphore(semaphore_t * semaphore, int mutex);
 void signalSemaphore(semaphore_t * semaphore);
 void broadcastSemaphore(semaphore_t * semaphore);
+void addToSemaphoreQueue(semaphore_t * semaphore, int pid);
+int removeFromSemaphoreQueue(semaphore_t * semaphore);
 
 #endif

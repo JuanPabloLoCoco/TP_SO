@@ -276,6 +276,7 @@ void eraseLine(int y)
        number = number/16;
        index++;
     }while(number);
+
     for(i = 0; i<16; i++)
     {
        if(n[i])

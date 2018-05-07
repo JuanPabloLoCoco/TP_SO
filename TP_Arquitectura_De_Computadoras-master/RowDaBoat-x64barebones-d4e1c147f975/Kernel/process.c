@@ -40,43 +40,52 @@ typedef struct {
 	uint64_t ret;
 } stack_frame;
 
-int equalProcesses(process * p1, process * p2) {
+int equalProcesses(process * p1, process * p2)
+{
 	return p1->pid == p2->pid;
 }
 
-void freeProcess(process * process) {
+void freeProcess(process * process)
+{
 	buddyFree(process->stack_base);
 	buddyFree(process);
 }
 
-process * createProcess(void * entryPoint, int cargs, void ** pargs) {
+process * createProcess(void * entryPoint, int cargs, void ** pargs)
+{
 	process * newProcess = (process *)buddyAllocate(sizeof(process));
 	newProcess->entry_point = entryPoint;
 	newProcess->stack_base = buddyAllocatePages(INIT_PROCESS_PAGES);
 	newProcess->cantPages = INIT_PROCESS_PAGES;
 	newProcess->stack_pointer = fill_stack(entryPoint, newProcess->stack_base + newProcess->cantPages * PAGE_SIZE, cargs, pargs);
 	newProcess->pid = nextPID++;
-	for(int i=0;i<5;i++){
+	for(int i=0;i<5;i++)
+	{
 		newProcess->fd[i]=0;
 	}
 	newProcess->state = READY;
-	if(cargs != 0) {
+	if(cargs != 0)
+	{
 		newProcess->descr = pargs[0];
 //		print("NAME->"print(newProcess->descr);
-	} else {
+	}
+	else
+	{
 		newProcess->descr = "no_descr";
 	}
 	return newProcess;
 
 }
 
-void callProcess(int cargs, void ** pargs, void * entryPoint) {
+void callProcess(int cargs, void ** pargs, void * entryPoint)
+{
 	((int (*)(int, void**))(entryPoint))(cargs, pargs);
 
 	sys_leave(0, 0, 0, 0, 0);
 }
 
-void * fill_stack(void * entryPoint, void * stack_base, int cargs, void ** pargs) {
+void * fill_stack(void * entryPoint, void * stack_base, int cargs, void ** pargs)
+{
 	stack_frame * frame =  (stack_frame *)(stack_base - sizeof(stack_frame) -1);
 
 	frame->gs =		0x001;

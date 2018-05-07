@@ -1,6 +1,6 @@
 #include <naiveConsole.h>
 #include <lib.h>
-#include <videoDriver.h> 
+#include <videoDriver.h>
 #include <KeyboardDriver.h>
 #include <KeyboardMap.h>
 #include <time.h>
@@ -12,68 +12,81 @@ uint8_t buffer[BUFFERSIZE];
 uint16_t index = 0;
 uint16_t read = 0;
 
-void keyboard_handler() {
+void keyboard_handler()
+{
 	char l = getKey();
 	if(l >0) {
-		if(kbdus[l]) {
+		if(kbdus[l])
+		{
 			count++;
-			if(status & 1<<SHIFT){
+			if(status & 1<<SHIFT)
+			{
 				buffer[index] = shiftedkey[l];
 			}
-			else if(status & 1<<CAPSLOCK){
+			else if(status & 1<<CAPSLOCK)
+			{
 				buffer[index] = capsKey[l];
 			}
 			else
 				buffer[index] = kbdus[l];
 			incrementIndex();
 		}
-		else {
+		else
+		{
 			if(l == LSHIFTCODE || l == RSHIFTCODE)  //shift pressed
 				status = status | 1<<SHIFT;
-			else if(l == CAPSLOCKCODE) {  //caps pressed
+			else if(l == CAPSLOCKCODE)
+			{  //caps pressed
 				if(status & 1<<CAPSLOCK)
 					status = status & (~(1<<CAPSLOCK));
 				else
-					status = status | 1<<CAPSLOCK;		
+					status = status | 1<<CAPSLOCK;
 			}
 			else if(l == BACKSPACECODE) {
 				buffer[index] = '\b';
 				incrementIndex();
-				if(count > 0){
+				if(count > 0)
+				{
 					count--;
 					erase_char();
 				}
 
 			}
-			else if(l == NEWLINECODE){
+			else if(l == NEWLINECODE)
+			{
 				buffer[index] = '\n';
 				incrementIndex();
 				count = 0;
 			}
-		}	
+		}
 	}
-	else {
+	else
+	{
 	 	if(l+128 == LSHIFTCODE || l+128 == RSHIFTCODE) //shift removed
 			status = status & (~(1<<SHIFT));
-
 	}
 }
 
-void incrementIndex(){
-	if((index + 1 %256) != read) {
+void incrementIndex()
+{
+	if((index + 1 %256) != read)
+	{
 		index ++;
 		index = index%256;
 	}
 }
 
-void incrementRead(){
-	if(read != index){
+void incrementRead()
+{
+	if(read != index)
+	{
 		read ++;
 		read = read % 256;
 	}
 }
 
-int getChar() {
+int getChar()
+{
 	_sti();
 	if(read == index)
 		return -1;
