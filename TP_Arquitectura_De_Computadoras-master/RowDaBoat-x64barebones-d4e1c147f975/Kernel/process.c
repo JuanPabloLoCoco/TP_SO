@@ -46,7 +46,7 @@ int equalProcesses(process * p1, process * p2) {
 
 void freeProcess(process * process) {
 	buddyFree(process->stack_base);
-	free(process);
+	buddyFree(process);
 }
 
 process * createProcess(void * entryPoint, int cargs, void ** pargs) {

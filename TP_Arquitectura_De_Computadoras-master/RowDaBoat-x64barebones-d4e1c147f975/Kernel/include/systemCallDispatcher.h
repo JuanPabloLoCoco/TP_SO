@@ -22,5 +22,7 @@ uint64_t sys_getScreenInfo(uint64_t rdi);
 uint64_t sys_setPointer(uint64_t x, uint64_t y);
 uint64_t sys_ChangeColor(uint64_t blue,uint64_t green,uint64_t red);
 uint64_t sys_allocPage(uint64_t toAlloc);
+uint64_t sys_free(uint64_t toFree);
+uint64_t sys_leave();
 
 #endif

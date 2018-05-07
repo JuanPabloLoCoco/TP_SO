@@ -2,6 +2,7 @@
 #include <videoDriver.h>
 #include <systemCallDispatcher.h>
 #include <buddyAllocator.h>
+#include <scheduler.h>
 
 uint64_t systemCallDispatcher(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r8, uint64_t r9)
 {
@@ -51,6 +52,12 @@ uint64_t systemCallDispatcher(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t
 				break;
 			case 14:
 				result = sys_allocPage(rdi);
+				break;
+			case 15:
+				result = sys_free(rdi);
+				break;
+			case 16:
+				result = sys_leave();
 				break;
 		}
 		return result;
@@ -179,4 +186,21 @@ uint64_t sys_allocPage(uint64_t toAlloc)
 {
  	void* address = buddyAllocate(toAlloc);
 	return (uint64_t) address;
+}
+
+uint64_t sys_free(uint64_t toFree)
+{
+ 	buddyFree(toFree);
+	return 0;
+}
+
+uint64_t sys_leave()
+{
+	if (getForegroundPid() == getCurrentPid())
+	{
+  	setForeground(1); // give forground to shell
+  }
+  changeProcessState(getCurrentPid(), DEAD);
+  _yield();
+  return 0;
 }
