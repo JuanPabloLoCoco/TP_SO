@@ -2,7 +2,7 @@
 #define MUTEX_H
 
 
-#include "IPCstructs.h"
+#include "IPCstruct.h"
 
 int getMutex(char* name);
 int releaseMutex(char* name);

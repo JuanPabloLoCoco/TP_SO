@@ -1,6 +1,8 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
+#include "pipe.h"
+
 typedef enum processState_t {RUNNING, READY, BLOCKED, DEAD, SLEEPING} processState;
 static char* stateDescription[5] = {"running", "ready", "blocked", "dead", "sleeping"};
 

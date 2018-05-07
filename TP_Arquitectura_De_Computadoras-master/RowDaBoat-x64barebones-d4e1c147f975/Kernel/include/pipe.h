@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "semaphore.h"
 
-#include "IPCstructs.h"
+#include "IPCstruct.h"
 #define MAX_PIPES 100
 #define PIPES_MUTEX "__PIPES__MUTEX"
 

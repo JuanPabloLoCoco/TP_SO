@@ -1,12 +1,10 @@
 #include "include/mutex.h"
 #include "include/testAndSet.h"
-#include "include/types.h"
+#include "include/defs.h"
 #include "include/scheduler.h"
 #include "include/process.h"
 #include "include/videoDriver.h"
-#include "include/IPCstructs.h"
-
-#define NULL  (char*)0
+#include "include/IPCstruct.h"
 
 typedef struct {
     char name[MAX_MUTEX_NAME_LENGHT+1];

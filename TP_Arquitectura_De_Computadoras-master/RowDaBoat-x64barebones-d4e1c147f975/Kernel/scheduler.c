@@ -5,7 +5,7 @@
 #include "include/mutex.h"
 #include "include/scheduler.h"
 #include "include/strings.h"
-#include "include/keyboardDriver.h"
+#include "include/KeyboardDriver.h"
 
 extern void * _get_rsp();
 extern void _set_rsp(void * rsp);

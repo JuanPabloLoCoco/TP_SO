@@ -45,7 +45,7 @@ void addToSemaphoreQueue(semaphore_t * semaphore, int pid){
     semaphore->queueSize ++;
 }
 
-int removeFromSemaphoreQueue(Semaphore_t * semaphore){
+int removeFromSemaphoreQueue(semaphore_t * semaphore){
     if(semaphore->queueSize==0)return -1;
     int pid = semaphore->queue[semaphore->queueIndex];
     semaphore->queueIndex = (semaphore->queueIndex + 1) % MAX_SEMAPHORE_QUEUE_SIZE;

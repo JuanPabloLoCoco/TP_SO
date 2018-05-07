@@ -4,8 +4,6 @@
 #include <font.h>
 
 
-
-
 MODE_INFO * mode_info = (MODE_INFO*)0x0000000000005C00;
 Pointer pointer = {0,0};
 Color background_color= {0,0,0};
@@ -57,7 +55,7 @@ void draw_char(uint8_t l) {
          if(1<<j & letter[i])
             draw_pixel_with_color(CHAR_WIDTH-1-j+pointer.x,i+pointer.y,fontColor);
          else
-            draw_pixel_with_color(CHAR_WIDTH-1-j+pointer.x,i+pointer.y,background_color);   
+            draw_pixel_with_color(CHAR_WIDTH-1-j+pointer.x,i+pointer.y,background_color);
       }
    }
    pointer.x += CHAR_WIDTH;
@@ -78,10 +76,10 @@ void draw_char(uint8_t l) {
             if(1<<j & letter[i])
                draw_pixel_with_color(CHAR_WIDTH-1-j+x,i+y,white);
             else
-               draw_pixel_with_color(CHAR_WIDTH-1-j+x,i+y,black);   
+               draw_pixel_with_color(CHAR_WIDTH-1-j+x,i+y,black);
          }
       }
-      x += CHAR_WIDTH;     
+      x += CHAR_WIDTH;
    }
 
    /*draw the given char on the screen at the given position and with
@@ -97,9 +95,9 @@ void draw_char(uint8_t l) {
             if(1<<j & letter[i])
                draw_pixel_with_color(CHAR_WIDTH-1-j+x,i+y,letter_color);
             else
-               draw_pixel_with_color(CHAR_WIDTH-1-j+x,i+y,background_color);   
+               draw_pixel_with_color(CHAR_WIDTH-1-j+x,i+y,background_color);
          }
-      }  
+      }
       pointer.x += CHAR_WIDTH;
    }
 
@@ -124,7 +122,7 @@ void draw_char(uint8_t l) {
          else
             return;
       }
-      else       
+      else
          pointer.x = pointer.x - CHAR_WIDTH;
       draw_char(' ');
       pointer.x = pointer.x - CHAR_WIDTH;
@@ -205,7 +203,7 @@ void draw_char(uint8_t l) {
          }
       }
    }
-   
+
    /*returns the screen height*/
    int getScreenHeigth(){
       return mode_info->height;
