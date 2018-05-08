@@ -60,6 +60,9 @@ uint64_t systemCallDispatcher(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t
 			case 16:
 				result = sys_leave();
 				break;
+			case 17:
+				result = sys_ps();
+				break;
 		}
 		return result;
 }
@@ -203,5 +206,11 @@ uint64_t sys_leave()
   }
   changeProcessState(getCurrentPid(), DEAD);
   _yield();
+  return 0;
+}
+
+uint64_t sys_ps(uint64_t buffer, uint64_t size)
+{
+	sprintAllProcesses(buffer, size);
   return 0;
 }

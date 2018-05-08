@@ -39,7 +39,7 @@ void shell()
 					date();
 					break;
 				case CLEAR:
-					clear();
+					//clear();
 					setUpShell();
 					break;
 				case HELP:

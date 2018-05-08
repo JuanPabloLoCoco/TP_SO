@@ -2,8 +2,11 @@
 #include <string.h>
 #include <lib.h>
 #include <moduleLoader.h>
-#include <naiveConsole.h>	
+#include <naiveConsole.h>
 #include <videoDriver.h>
+#include <buddyAllocator.h>
+#include <pipe.h>
+#include <mutex.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -12,7 +15,7 @@ extern uint8_t bss;
 extern uint8_t endOfKernelBinary;
 extern uint8_t endOfKernel;
 
-void syscallsTest(); 
+void syscallsTest();
 
 static const uint64_t PageSize = 0x1000;
 
@@ -83,14 +86,16 @@ void * initializeKernelBinary()
 	ncNewline();
 	ncNewline();
 	load_idt();
-
+	initializeHeap();
+	initializeMutex();
+	initIPC();
 	return getStackBase();
 }
 
 int _int80(uint64_t,uint64_t,uint64_t,uint64_t,uint64_t,uint64_t);
 
 int main()
-{	
+{
 	((EntryPoint)sampleCodeModuleAddress)();
 	return 0;
 }
