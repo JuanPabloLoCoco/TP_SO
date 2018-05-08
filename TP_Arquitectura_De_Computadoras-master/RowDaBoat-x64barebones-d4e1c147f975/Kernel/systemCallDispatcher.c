@@ -3,6 +3,7 @@
 #include <systemCallDispatcher.h>
 #include <buddyAllocator.h>
 #include <scheduler.h>
+#include <time.h>
 
 uint64_t systemCallDispatcher(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r8, uint64_t r9)
 {
@@ -62,6 +63,9 @@ uint64_t systemCallDispatcher(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t
 				break;
 			case 17:
 				result = sys_ps(rdi, rsi);
+				break;
+			case 18:
+				result=sys_sleep(rdi);
 				break;
 		}
 		return result;
@@ -212,5 +216,11 @@ uint64_t sys_leave()
 uint64_t sys_ps(uint64_t buffer, uint64_t size)
 {
 	sprintAllProcesses(buffer, size);
+  return 0;
+}
+
+uint64_t sys_ps(uint64_t time)
+{
+	sleep(time);
   return 0;
 }
