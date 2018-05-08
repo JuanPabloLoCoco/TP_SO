@@ -24,5 +24,6 @@ uint64_t sys_ChangeColor(uint64_t blue,uint64_t green,uint64_t red);
 uint64_t sys_allocPage(uint64_t toAlloc);
 uint64_t sys_free(uint64_t toFree);
 uint64_t sys_leave();
+uint64_t sys_ps(uint64_t buffer, uint64_t size);
 
 #endif

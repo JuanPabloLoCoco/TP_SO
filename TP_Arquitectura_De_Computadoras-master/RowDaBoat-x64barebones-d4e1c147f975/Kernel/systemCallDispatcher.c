@@ -61,7 +61,7 @@ uint64_t systemCallDispatcher(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t
 				result = sys_leave();
 				break;
 			case 17:
-				result = sys_ps();
+				result = sys_ps(rdi, rsi);
 				break;
 		}
 		return result;
