@@ -10,7 +10,8 @@ uint64_t systemCallDispatcher(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t
 		switch(rax)
 		{
 			case 0:
-				result =sys_read(rdi, rsi, rdx);
+				result = sys_read(rdi, rsi, rdx);
+				break;
 			case 1:
 				 result = sys_write(rdi, rsi, rdx);
 				 break;

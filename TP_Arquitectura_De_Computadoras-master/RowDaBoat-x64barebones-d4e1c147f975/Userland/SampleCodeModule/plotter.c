@@ -60,7 +60,7 @@ extern uint64_t _int80(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
       {
          x = p*scale;
          y = a*x*x+b*x+c;
-         y* = 100;
+         y *= 100;
          draw_pixel(width/2 + p, height/2-y);
       }
    }
