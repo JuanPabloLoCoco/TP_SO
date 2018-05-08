@@ -65,7 +65,7 @@ uint64_t systemCallDispatcher(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t
 				result = sys_ps(rdi, rsi);
 				break;
 			case 18:
-				result=sys_sleep(rdi);
+				result= sys_sleep(rdi);
 				break;
 		}
 		return result;
@@ -219,7 +219,7 @@ uint64_t sys_ps(uint64_t buffer, uint64_t size)
   return 0;
 }
 
-uint64_t sys_ps(uint64_t time)
+uint64_t sys_sleep(uint64_t time)
 {
 	sleep(time);
   return 0;
