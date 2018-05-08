@@ -1,8 +1,8 @@
 #include <stdlib.h>
 
 /*prints the menu with the avaliable commands and their description*/
-void help() {
-
+void help()
+{
 	printf("   time: Prints time in HH:MM:SS format\n\n");
 	printf("   date: Prints date in DD/MM/YY format\n\n");
 	printf("   clear: Clears screen\n\n");
