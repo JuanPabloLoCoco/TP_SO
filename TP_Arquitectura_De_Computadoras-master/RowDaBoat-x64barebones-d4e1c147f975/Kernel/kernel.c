@@ -85,17 +85,37 @@ void * initializeKernelBinary()
 	ncPrint("[Done]");
 	ncNewline();
 	ncNewline();
+
 	load_idt();
 	initializeHeap();
 	initializeMutex();
 	initIPC();
+
 	return getStackBase();
 }
+
+int init()
+{
+	while(1)
+	{
+		_halt();
+	}
+}
+
+
 
 int _int80(uint64_t,uint64_t,uint64_t,uint64_t,uint64_t,uint64_t);
 
 int main()
 {
-	((EntryPoint)sampleCodeModuleAddress)();
+	// ((EntryPoint)sampleCodeModuleAddress)();
+	void ** pargs= (void**)buddyAllocate(sizeof(void*));
+	pargs[0] = (void*)"init";
+	insertProcess(&init, 1, pargs);
+	pargs[0] = (void*)"shell";
+	insertProcess(sampleCodeModuleAddress, 1, pargs);
+	setForeground(1);
+ 	beginScheduler();
+
 	return 0;
 }

@@ -26,20 +26,20 @@ static int alarmSleep[MAX_LISTENERS];
 void timer_handler()
 {
 	ticks++;
-	// for (auxj = 0; auxj < timerListeners; auxj++)
-	// {
-	// 	if(ticks % alarmEvents[auxj]==0) timerEvents[auxj]();
-	// }
-	// for(auxj=0;auxj < sleepListeners; auxj++)
-	// {
-	// 	sleepTicks[auxj]+=1;
-	// 	if(sleepTicks[auxj] == alarmSleep[auxj])
-	// 	{
-	// 		doneSleeping(auxj);
-  //     auxj--;
-	// 	}
-	// }
-	// executeSchedule();
+	for (auxj = 0; auxj < timerListeners; auxj++)
+	{
+		if(ticks % alarmEvents[auxj]==0) timerEvents[auxj]();
+	}
+	for(auxj=0;auxj < sleepListeners; auxj++)
+	{
+		sleepTicks[auxj]+=1;
+		if(sleepTicks[auxj] == alarmSleep[auxj])
+		{
+			doneSleeping(auxj);
+      auxj--;
+		}
+	}
+	executeSchedule();
 }
 
 void deleteSleep(int index)
