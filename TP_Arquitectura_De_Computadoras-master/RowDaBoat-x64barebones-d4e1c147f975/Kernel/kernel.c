@@ -7,6 +7,7 @@
 #include <buddyAllocator.h>
 #include <pipe.h>
 #include <mutex.h>
+#include <scheduler.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -108,14 +109,15 @@ int _int80(uint64_t,uint64_t,uint64_t,uint64_t,uint64_t,uint64_t);
 
 int main()
 {
-	// ((EntryPoint)sampleCodeModuleAddress)();
-	void ** pargs= (void**)buddyAllocate(sizeof(void*));
-	pargs[0] = (void*)"init";
-	insertProcess(&init, 1, pargs);
-	pargs[0] = (void*)"shell";
-	insertProcess(sampleCodeModuleAddress, 1, pargs);
-	setForeground(1);
- 	beginScheduler();
+	((EntryPoint)sampleCodeModuleAddress)();
+	// printAllProcesses();
+	// void ** pargs= (void**)buddyAllocate(sizeof(void*));
+	// pargs[0] = (void*)"init";
+	// insertProcess(&init, 1, pargs);
+	// pargs[0] = (void*)"shell";
+	// insertProcess(sampleCodeModuleAddress, 1, pargs);
+	// setForeground(1);
+ 	// beginScheduler();
 
 	return 0;
 }
