@@ -18,10 +18,10 @@ static processSlot * current = NULL;
 static processSlot * foreground = NULL;
 static int cantProcesses = 0;
 
-static int amountFreeableProcess=0;
+static int amountFreeableProcess = 0;
 static processSlot * processToFree[500];
 
-int debug=0;
+int debug = 0;
 
 process* getMyProcessData()
 {
