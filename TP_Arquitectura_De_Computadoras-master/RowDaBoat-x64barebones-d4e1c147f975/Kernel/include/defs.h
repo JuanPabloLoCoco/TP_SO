@@ -22,4 +22,14 @@ typedef unsigned long qword;
 #define false 0
 #define EOF -1
 
+typedef char boolean;
+
+typedef unsigned char byte;
+typedef short int word;
+typedef int dword;
+typedef unsigned long qword;
+
+typedef unsigned int uint32;
+
+
 #endif

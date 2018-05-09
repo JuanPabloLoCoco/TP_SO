@@ -53,6 +53,20 @@ EXTERN next_process
 	pop rax
 %endmacro
 
+%macro deleteInterr 0
+	pop rax
+	pop rax
+	pop rax
+	pop rax
+	pop rax
+    pop rax
+   	pop rax
+   	pop rax
+   	pop rax
+%endmacro
+
+
+
 cpuVendor:
 	push rbp
 	mov rbp, rsp
@@ -77,72 +91,60 @@ cpuVendor:
 	pop rbp
 	ret
 
-	%macro deleteInterr 0
-		pop rax
-		pop rax
-		pop rax
-		pop rax
-		pop rax
-	    pop rax
-	   	pop rax
-	   	pop rax
-	   	pop rax
-	%endmacro
+_yield:
+	mov rax,rsp
 
-	_yield:
-		mov rax,rsp
+	push QWORD 0
+	push QWORD 0
+	push rax
+	pushfq
+	push QWORD 0x008
+	push .ret
 
-		push QWORD 0
-		push QWORD 0
-		push rax
-		pushfq
-		push QWORD 0x008
-		push .ret
+	pushState
 
-		pushState
+	jmp to_next
 
-		jmp to_next
+.ret:
+	ret
 
-	.ret:
-		ret
-
-	_change_process:
+_change_process:
     deleteInterr
 
-	to_next:
-		mov rdi, rsp
-		call next_process
+to_next:
+	mov rdi, rsp
+	call next_process
 
-		mov rsp, rax
+	mov rsp, rax
 
-	  ;signal pic
-	  mov al, 20h
-	  out 20h, al
+    ;signal pic
+    mov al, 20h
+    out 20h, al
 
-	  popState
-	  sti
-	  iretq
+    popState
+    sti
+    iretq
 
 _get_rsp:
-		mov rax, rsp
-		ret
+	mov rax, rsp
+	ret
 
 _set_rsp:
-		mov rsp, rdi
-		ret
+	mov rsp, rdi
+	ret
 
 _get_rip:
-		mov rax, $
-		ret
+	mov rax, $
+	ret
 
 _pushAll:
-		push rax
-		ret
+	push rax
+	ret
 
 _popAll:
-		popState
-		ret
+	popState
+	ret
 
-	_halt:
-	    hlt
-	    ret
+_halt:
+    hlt
+    ret
