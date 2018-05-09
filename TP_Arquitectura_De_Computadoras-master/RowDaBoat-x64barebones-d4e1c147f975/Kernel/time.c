@@ -39,7 +39,7 @@ void timer_handler()
       auxj--;
 		}
 	}
-	executeSchedule();
+	//executeSchedule();
 }
 
 void deleteSleep(int index)
