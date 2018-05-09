@@ -109,12 +109,12 @@ int _int80(uint64_t,uint64_t,uint64_t,uint64_t,uint64_t,uint64_t);
 
 int main()
 {
-	((EntryPoint)sampleCodeModuleAddress)();
 	// printAllProcesses();
-	// void ** pargs= (void**)buddyAllocate(sizeof(void*));
-	// pargs[0] = (void*)"init";
-	// insertProcess(&init, 1, pargs);
-	// pargs[0] = (void*)"shell";
+	void ** pargs= (void**)buddyAllocate(sizeof(void*));
+	pargs[0] = (void*)"init";
+	insertProcess(&init, 1, pargs);
+	((EntryPoint)sampleCodeModuleAddress)();
+	//pargs[0] = (void*)"shell";
 	// insertProcess(sampleCodeModuleAddress, 1, pargs);
 	// setForeground(1);
  	// beginScheduler();

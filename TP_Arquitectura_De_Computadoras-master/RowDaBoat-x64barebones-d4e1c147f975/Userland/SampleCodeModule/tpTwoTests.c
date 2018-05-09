@@ -34,3 +34,14 @@ void testTwo()
 		printf("Distintos lugares. Mal free\n");
 	}
 }
+
+void testPS()
+{
+	char* address = _int80(14, 3000, 0, 0, 0, 0);
+	_int80(17, address, 3000, 0, 0, 0);
+	printf("%s\n",address );
+	_int80(15, address, 0, 0, 0, 0);
+	int l;
+	printf("Presione q para volver\n");
+	while((l = getchar()) != 'q');
+}
