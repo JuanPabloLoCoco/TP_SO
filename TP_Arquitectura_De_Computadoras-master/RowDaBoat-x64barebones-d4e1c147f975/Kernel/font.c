@@ -3480,9 +3480,10 @@ unsigned char __font_bitmap__[] = {
 	________,
 };
 
-unsigned char * pixel_map(int c)
-{
+unsigned char * pixel_map(int c) {
 	// 31 es el numero (segun codigo ascii) a partir del cual están las letras
 	// en el arreglo __font_bitmap__
+	if (c < 31 || c > 200)
+		return __font_bitmap__;
 	return __font_bitmap__ + CHAR_HEIGHT * (c-31);
 }

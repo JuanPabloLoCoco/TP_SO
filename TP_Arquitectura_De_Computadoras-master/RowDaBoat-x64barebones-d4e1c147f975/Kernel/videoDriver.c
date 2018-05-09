@@ -41,7 +41,7 @@ void draw_pixel_with_color(int x, int y,Color color)
 /*prints the given char on the screen at the pointers position*/
 void draw_char(uint8_t l)
 {
-  if (l=='\n')
+  if (l == '\n')
   {
     newLine();
   }
@@ -128,7 +128,6 @@ void draw_char_position(uint8_t l, int x, int y)
     for  (; word[i] != '\0'; i++)
     {
        draw_char(word[i]);
-       i++;
     }
  }
 
