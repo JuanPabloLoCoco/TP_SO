@@ -8,6 +8,7 @@
 #include <clear.h>
 #include <help.h>
 #include <color.h>
+#include <tpTwoTests.h>
 
 uint64_t _int80(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 
@@ -58,6 +59,15 @@ void shell()
 					color(functionArgs[0],functionArgs[1],functionArgs[2]);
 					break;
 				case TEST:
+					test(functionArgs[0]);
+					break;
+				case DUAL_ALLOCATION_TEST:
+					test(functionArgs[0]);
+					break;
+				case FREE_TEST:
+					test(functionArgs[0]);
+					break;
+				case PS_TEST:
 					test(functionArgs[0]);
 					break;
 			}
@@ -174,6 +184,18 @@ int getCommands()
 				return COMMANDS_QUANTITY;
 			}
 			return TEST;
+		}
+		else if(strcmp(command, "dual malloc test"))
+		{
+			return DUAL_ALLOCATION_TEST;
+		}
+		else if(strcmp(command, "free test"))
+		{
+			return FREE_TEST;
+		}
+		else if(strcmp(command, "ps test"))
+		{
+			return PS_TEST;
 		}
 	}
 	return COMMANDS_QUANTITY;

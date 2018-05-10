@@ -4,11 +4,11 @@
 
 uint64_t _int80(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 
-void testOne()
+void testDualAllocation()
 {
-	printf("Testeo doble creacion: ");
-	uint64_t firstAddress = _int80(14, 1000, 0, 0, 0, 0);
-	uint64_t secondAddress = _int80(14, 1000, 0, 0, 0, 0);
+	printf("Testeo doble creacion:\n");
+	uint64_t firstAddress = malloc(1000);
+	uint64_t secondAddress = malloc(1000);
 	if((int)firstAddress == (int)secondAddress)
 	{
 		printf("Mismos lugares. Mala alocacion\n");
@@ -19,12 +19,12 @@ void testOne()
 	}
 }
 
-void testTwo()
+void testFree()
 {
-	printf("Testeo free: ");
-	uint64_t firstAddress = _int80(14, 1000, 0, 0, 0, 0);
-	_int80(15, firstAddress, 0, 0, 0, 0);
-	uint64_t secondAddress = _int80(14, 1000, 0, 0, 0, 0);
+	printf("Testeo free:\n");
+	uint64_t firstAddress = malloc(1000);
+	free(firstAddress);
+	uint64_t secondAddress = malloc(1000);
 	if((int)firstAddress == (int)secondAddress)
 	{
 		printf("Mismos lugares. Buen free\n");
@@ -37,10 +37,10 @@ void testTwo()
 
 void testPS()
 {
-	char* address = _int80(14, 3000, 0, 0, 0, 0);
-	_int80(17, address, 3000, 0, 0, 0);
+	char* address = malloc(3000);
+	ps(address, 3000);
 	printf("%s\n",address );
-	_int80(15, address, 0, 0, 0, 0);
+	free(address);
 	int l;
 	printf("Presione q para volver\n");
 	while((l = getchar()) != 'q');

@@ -275,3 +275,18 @@ char* readLine()
     buff[bufferIndex] = '\0';
     return buff;
 }
+
+uint64_t malloc(uint64_t amount)
+{
+	return _int80(14, amount, 0, 0, 0, 0);
+}
+
+void free(uint64_t address)
+{
+	_int80(15, address, 0, 0, 0, 0);
+}
+
+void ps(uint64_t address, uint64_t amount)
+{
+	_int80(17, address, amount, 0, 0, 0);
+}

@@ -12,8 +12,11 @@
 #define QUADRATIC 7
 #define COLOR 8
 #define TEST 9
+#define DUAL_ALLOCATION_TEST 10
+#define FREE_TEST 11
+#define PS_TEST 12
 #define COMMAND_MAX_LENGTH 10
-#define COMMANDS_QUANTITY 10
+#define COMMANDS_QUANTITY 20
 #define COMMANDS_MAX_ARGS 50
 #define MAX_LINEAR_INTS 2
 #define MAX_QUADRATIC_INTS 3
@@ -39,7 +42,7 @@ int getCommands(void);
 */
 int readArgs(char * args);
 
-/*stores the numbers of the argument read in an integer vector 
+/*stores the numbers of the argument read in an integer vector
 ** and returns how many ints were given
 */
 int getInts(int totalArgs);

@@ -40,16 +40,20 @@ void printf(const char * str,...);
 /* print the given char on screen*/
 void putchar(const char c);
 
-/*reads a char from the buffer and returns it*/ 
+/*reads a char from the buffer and returns it*/
 int getchar(void);
 
 /*reads from the input the given format and when finds a %d or %c or %s
 ** reads and stores its content in the int, char, or char* respectively that
 ** were given
-*/ 
+*/
 int scanf(const char* format,...);
 
 /*reads text from the input until enter and returns what has read*/
 char* readLine(void);
+
+uint64_t malloc(uint64_t amount);
+void free(uint64_t address);
+void ps(uint64_t address, uint64_t amount);
 
 #endif
