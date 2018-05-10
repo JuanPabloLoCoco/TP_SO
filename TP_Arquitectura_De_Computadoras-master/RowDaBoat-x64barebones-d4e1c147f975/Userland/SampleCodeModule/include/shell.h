@@ -60,4 +60,10 @@ void functionScreen(int a, int b, int c);
 */
 int valid(int from,int to,int size);
 
+void prodcons();
+
+void producer();
+
+void consumer();
+
 #endif
