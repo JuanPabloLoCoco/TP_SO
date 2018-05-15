@@ -1,8 +1,26 @@
 #include <shell.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <tpTwoTests.h>
 
 uint64_t _int80(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+
+void testsTpTwo(int id)
+{
+	switch(id)
+	{
+		case DUAL_ALLOCATION:
+			testDualAllocation();
+			break;
+		case FREE:
+			testFree();
+			break;
+		case PS:
+			testPS();
+			break;
+	}
+
+}
 
 void testDualAllocation()
 {

@@ -40,7 +40,7 @@ void shell()
 					date();
 					break;
 				case CLEAR:
-					//clear();
+					clear();
 					setUpShell();
 					break;
 				case HELP:
@@ -61,14 +61,8 @@ void shell()
 				case TEST:
 					test(functionArgs[0]);
 					break;
-				case DUAL_ALLOCATION_TEST:
-					test(functionArgs[0]);
-					break;
-				case FREE_TEST:
-					test(functionArgs[0]);
-					break;
-				case PS_TEST:
-					test(functionArgs[0]);
+				case TP_TWO_TEST:
+					testsTpTwo(functionArgs[0]);
 					break;
 			}
 		}
@@ -185,17 +179,9 @@ int getCommands()
 			}
 			return TEST;
 		}
-		else if(strcmp(command, "dual malloc test"))
+		else if(strcmp(command, "tpTwoTests"))
 		{
-			return DUAL_ALLOCATION_TEST;
-		}
-		else if(strcmp(command, "free test"))
-		{
-			return FREE_TEST;
-		}
-		else if(strcmp(command, "ps test"))
-		{
-			return PS_TEST;
+			return TP_TWO_TEST;
 		}
 	}
 	return COMMANDS_QUANTITY;
@@ -314,67 +300,67 @@ int valid(int from,int to,int size)
 	return 1;
 }
 
-void prodcons() {
-	_int80(18,200);//sleep
-
-	_int80(30, "prodConsRead", readMutex); //createMutex
-	_int80(30, "prodConsWrite", writeMutex); //createMutex
-	_int80(30, "prodConsModify", modifyQueueMutex); //createMutex
-
-	_int80(27, &readMutex);//initSemaphore
-	_int80(27, &writeMutex);//initSemaphore
-	_int80(9); //clear
-
-	producer();
-	consumer();
-}
-
-void producer(){
-
-    int i = 0;
-    
-    _int80(32, writeMutex, writeMutex);//lockMutex
-    int maxProduced = 50;
-    while (i < maxProduced){
-        while (queueSize >= MAX_PRODUCT_QUEUE_SIZE){
-            _int80(26, writeMutex);//waitSemaphore
-        }
-
-        //addToProductQueue
-        _int80(32, modifyQueueMutex, modifyQueueMutex);//lockMutex
-        if(queueSize == MAX_PRODUCT_QUEUE_SIZE){
-        	printf("No puede agregar");
-        	return;
-        }
-        int index = (queueIndex + queueSize) % MAX_PRODUCT_QUEUE_SIZE;
-        queue[index] = i;
-//        printf("prod %d\n",i);
-        _int80(25, &readMutex);
-    }
-    _int80(25, writeMutex, writeMutex);
-//    printf("liberado: %d, index: %d\n",queueSize,queueIndex);
-}
-
-void consumer(){
-
-    _int80(32, readMutex, readMutex);//lockMutex
-    while (1){
-        while (queueSize <= 0){
-            _int80(26, readMutex);//waitSemaphore
-        }
-
-        //removeFromProductQueue();
-        _int80(32, modifyQueueMutex, modifyQueueMutex);//lockMutex
-        if(queueSize == 0){
-        	printf("No puede quitar");
-        	return;
-        }
-        queueIndex = (queueIndex + 1) % MAX_PRODUCT_QUEUE_SIZE;
-        queueSize--;
-//        printf("prod %d\n",i);
-        _int80(33, modifyQueueMutex);//unlock
-        _int80(25, writeMutex, writeMutex);//signalSemaphore
-
-    }
-    _int80(25, readMutex, readMutex);//signalSemaphore
-}
+// void prodcons() {
+// 	_int80(18,200);//sleep
+//
+// 	_int80(30, "prodConsRead", readMutex); //createMutex
+// 	_int80(30, "prodConsWrite", writeMutex); //createMutex
+// 	_int80(30, "prodConsModify", modifyQueueMutex); //createMutex
+//
+// 	_int80(27, &readMutex);//initSemaphore
+// 	_int80(27, &writeMutex);//initSemaphore
+// 	_int80(9);
+//
+// 	producer();
+// 	consumer();
+// }
+//
+// void producer(){
+//
+//     int i = 0;
+//
+//     _int80(32, writeMutex, writeMutex);//lockMutex
+//     int maxProduced = 50;
+//     while (i < maxProduced){
+//         while (queueSize >= MAX_PRODUCT_QUEUE_SIZE){
+//             _int80(26, writeMutex);//waitSemaphore
+//         }
+//
+//         //addToProductQueue
+//         _int80(32, modifyQueueMutex, modifyQueueMutex);//lockMutex
+//         if(queueSize == MAX_PRODUCT_QUEUE_SIZE){
+//         	printf("No puede agregar");
+//         	return;
+//         }
+//         int index = (queueIndex + queueSize) % MAX_PRODUCT_QUEUE_SIZE;
+//         queue[index] = i;
+// //        printf("prod %d\n",i);
+//         _int80(25, &readMutex);
+//     }
+//     _int80(25, writeMutex, writeMutex);
+// //    printf("liberado: %d, index: %d\n",queueSize,queueIndex);
+// }
+//
+// void consumer(){
+//
+//     _int80(32, readMutex, readMutex);//lockMutex
+//     while (1){
+//         while (queueSize <= 0){
+//             _int80(26, readMutex);//waitSemaphore
+//         }
+//
+//         //removeFromProductQueue();
+//         _int80(32, modifyQueueMutex, modifyQueueMutex);//lockMutex
+//         if(queueSize == 0){
+//         	printf("No puede quitar");
+//         	return;
+//         }
+//         queueIndex = (queueIndex + 1) % MAX_PRODUCT_QUEUE_SIZE;
+//         queueSize--;
+// //        printf("prod %d\n",i);
+//         _int80(33, modifyQueueMutex);//unlock
+//         _int80(25, writeMutex, writeMutex);//signalSemaphore
+//
+//     }
+//     _int80(25, readMutex, readMutex);//signalSemaphore
+// 	}

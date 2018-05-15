@@ -12,7 +12,8 @@ void help()
 	printf("   color  b g r: change the font color to the color given b(blue) g(green) r(red) each of them between 0 and 256\n\n");
 	printf("   test  id: tests the exception corresponding to the given id 0 for zeroDivision, 1 for invalidOpCode ,2 for overflow\n");
 	printf("             ,3 for breakpoint.\n\n");
-	printf("   dual allocation test: Test dual allocation with same size\n\n");
-	printf("   free test: allocation-free-allocation and checl if the address is the same\n\n");
-	printf("   ps test: create and ps an address\n\n");
+	printf("   tpTwoTests id: tests an example for the tp 2 depending on the id value:\n");
+	printf("                  id = 0) dual allocation with same size\n");
+	printf("                  id = 1) free\n");
+	printf("                  id = 2) ps\n");
 }

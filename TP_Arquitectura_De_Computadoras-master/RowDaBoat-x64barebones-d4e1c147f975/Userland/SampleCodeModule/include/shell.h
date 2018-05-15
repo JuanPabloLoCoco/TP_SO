@@ -12,9 +12,7 @@
 #define QUADRATIC 7
 #define COLOR 8
 #define TEST 9
-#define DUAL_ALLOCATION_TEST 10
-#define FREE_TEST 11
-#define PS_TEST 12
+#define TP_TWO_TEST 10 
 #define COMMAND_MAX_LENGTH 10
 #define COMMANDS_QUANTITY 20
 #define COMMANDS_MAX_ARGS 50
